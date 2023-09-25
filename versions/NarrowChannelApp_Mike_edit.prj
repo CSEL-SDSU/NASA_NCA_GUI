@@ -1,0 +1,155 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="3728677903" file="C:\Users\mgberry\Desktop\NASA NCU GUI\NarrowChannelApp_Mike_edit.prj" location="C:\Users\mgberry\Desktop\NASA NCU GUI" name="NarrowChannelApp_Mike_edit" preferred-package-location="C:\Users\mgberry\Desktop\NASA NCU GUI\NarrowChannelApp_Mike_edit\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>NASA_NCA_GUI</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark>Jethro Miguel, Mike Berry</param.authnamewatermark>
+    <param.email />
+    <param.company>SDSU CSEL</param.company>
+    <param.summary>NASA Narrow Channel Apparatus Graphic User Interface and Control</param.summary>
+    <param.description>Mike's edits and corrections for Jethro's code. Ramp functions (up/down) remain broken. Set Oxygen to 100% when running only air (default). Changes to controller A setFlow function.</param.description>
+    <param.screenshot>C:\Users\mgberry\Pictures\nasa-logo-web-rgb.jpg</param.screenshot>
+    <param.guid />
+    <param.installpath.string>\SDSU CSEL\NASA_NCA_GUI\</param.installpath.string>
+    <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.target.install.notes />
+    <param.intermediate>${PROJECT_ROOT}\NarrowChannelApp_Mike_edit\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\NarrowChannelApp_Mike_edit\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\NarrowChannelApp_Mike_edit\for_redistribution</param.output>
+    <param.logdir>${PROJECT_ROOT}\NarrowChannelApp_Mike_edit</param.logdir>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.web.mcr>false</param.web.mcr>
+    <param.package.mcr>true</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <param.native.matlab>false</param.native.matlab>
+    <param.checkbox>false</param.checkbox>
+    <param.example />
+    <param.help.text>Syntax 
+	  -? 
+	 
+ Input Arguments 
+	 -?  print help on how to use the application 
+	 input arguments 
+ Description 
+ 	 Mike's edits and corrections for Jethro's code. Ramp functions (up/down) remain broken. Set Oxygen to 100% when running only air (default). Changes to controller A setFlow function.</param.help.text>
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.email />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.install.notes />
+      <param.target.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.logdir />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.target.type />
+      <param.support.packages />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+      <param.native.matlab />
+      <param.checkbox />
+      <param.example />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}\NarrowChannelApp_Mike_edit.mlapp</file>
+    </fileset.main>
+    <fileset.resources />
+    <fileset.package />
+    <fileset.depfun>
+      <file>${PROJECT_ROOT}\calcFlow.m</file>
+      <file>${PROJECT_ROOT}\connectAlicat.m</file>
+      <file>${PROJECT_ROOT}\flushAlicatBuffer.m</file>
+      <file>${PROJECT_ROOT}\RampDown.m</file>
+      <file>${PROJECT_ROOT}\RampDownOxygen.m</file>
+      <file>${PROJECT_ROOT}\RampUp.m</file>
+      <file>${PROJECT_ROOT}\readMFC.m</file>
+      <file>${PROJECT_ROOT}\setFlow.m</file>
+    </fileset.depfun>
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}\NarrowChannelApp_Mike_edit\for_testing" name="splash.png" optional="false">C:\Users\mgberry\Desktop\NASA NCU GUI\NarrowChannelApp_Mike_edit\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\NarrowChannelApp_Mike_edit\for_testing" name="NASA_NCA_GUI.exe" optional="false">C:\Users\mgberry\Desktop\NASA NCU GUI\NarrowChannelApp_Mike_edit\for_testing\NASA_NCA_GUI.exe</file>
+      <file location="${PROJECT_ROOT}\NarrowChannelApp_Mike_edit\for_testing" name="readme.txt" optional="true">C:\Users\mgberry\Desktop\NASA NCU GUI\NarrowChannelApp_Mike_edit\for_testing\readme.txt</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2020a</root>
+      <toolboxes>
+        <toolbox name="matlabcoder" />
+        <toolbox name="embeddedcoder" />
+        <toolbox name="gpucoder" />
+        <toolbox name="fixedpoint" />
+        <toolbox name="matlabhdlcoder" />
+        <toolbox name="neuralnetwork" />
+      </toolboxes>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+      <toolbox>
+        <embeddedcoder>
+          <enabled>true</enabled>
+        </embeddedcoder>
+      </toolbox>
+      <toolbox>
+        <gpucoder>
+          <enabled>true</enabled>
+        </gpucoder>
+      </toolbox>
+      <toolbox>
+        <fixedpoint>
+          <enabled>true</enabled>
+        </fixedpoint>
+      </toolbox>
+      <toolbox>
+        <matlabhdlcoder>
+          <enabled>true</enabled>
+        </matlabhdlcoder>
+      </toolbox>
+      <toolbox>
+        <neuralnetwork>
+          <enabled>true</enabled>
+        </neuralnetwork>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.0</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
