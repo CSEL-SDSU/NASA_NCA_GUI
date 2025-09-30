@@ -1,6 +1,6 @@
 # NASA_NCA_GUI
 
->> dependencies contains files required to compile the executables
+>> helper functions are files required to compile the executables
 
 >> executables contains packaged versions of the GUI
 
