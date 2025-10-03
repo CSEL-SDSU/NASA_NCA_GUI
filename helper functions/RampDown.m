@@ -1,4 +1,14 @@
 function RampDown(IVT, PVT, RDRT, OxyComp, A, DC, N2Unit, O2Unit )
+% Modified by Jack T. Volponi 10/2/2025
+% ------------------------------------------------------------------------
+% Rewriting the code for better precision at lower flowrates. This version
+% of RampDown should always set the initial flow rate first with small MFC,
+% and add onto the initial to achieve the total flow if the total flow is
+% greater than the capacity of the small mfc. It will then ramp down the
+% larger MFC first, then ramp the small mfc to minimize the error.
+
+
+
 %Input Order: Initial Velocity Total, Plateau Velocity Total, Ramp Rate,
 %Oxygen Composition, Area, Density Correction Factor, Nitrogen Unit ID,
 %Oxygen Unit ID
@@ -25,3 +35,5 @@ for i = 1:N
 end
 toc
 end
+
+
