@@ -38,6 +38,7 @@ t.TasksToExecute;
 %execution time before adding another subsequent execution of the callback
 %function.
 t.ExecutionMode = 'fixedRate';
+%Set timer 
 
 tic
 for i = 1:N
