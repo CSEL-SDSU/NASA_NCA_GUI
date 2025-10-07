@@ -1,4 +1,4 @@
-function RampDown(IVT, PVT, RDRT, OxyComp, A, DC,MFCStruct)
+function RampDown(IVT, PVT, RDRT, OxyComp, A, DC,MFCStruct,N)
 % Modified by Jack T. Volponi 10/2/2025
 % ------------------------------------------------------------------------
 % Rewriting the code for better precision at lower flowrates. This version
@@ -13,7 +13,9 @@ arguments
     RDRT {mustBeNumeric} %Total Velocity Rampdown Rate [cm/s/s]
     OxyComp {mustBeNumeric} %Oxygen Concentration [% Oxygen]
     A {mustBeNumeric} %Cross-sectional area of NCA [cm^2]
-    MFCStruct
+    DC {mustBeNumeric} %Density correction factor 
+    MFCStruct %Struct containing each MFC label/tag and their operating ranges
+    N (1,1) {mustBeInteger,mustBeGreaterThan(N,0)} = 50 %Number of timesteps, 
 end
 
 %Input Order: Initial Velocity Total, Plateau Velocity Total, Ramp Rate,
