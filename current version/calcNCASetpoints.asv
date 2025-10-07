@@ -21,10 +21,10 @@ function [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = cal
         MFCStruct %Struct containing each MFC label/tag and their operating ranges
     end
     arguments (Output)
-        QASmallSetpoint {mustBeGreaterThanOrEqual(QASmallSetpoint,0)} %Gas A Small MFC setpoint [SLM]
-        QALargeSetpoint {mustBeGreaterThanOrEqual(QALargeSetpoint,0)} %Gas A Large MFC setpoint [SLM]
-        QBSmallSetpoint {mustBeGreaterThanOrEqual(QBSmallSetpoint,0)} %Gas B Small MFC setpoint [SLM]
-        QBLargeSetpoint {mustBeGreaterThanOrEqual(QBLargeSetpoint,0)} %Gas B Large MFC setpoint [SLM]
+        QASmallSetpoint {mustBePositive} %Gas A Small MFC setpoint [SLM]
+        QALargeSetpoint {mustBePositive} %Gas A Large MFC setpoint [SLM]
+        QBSmallSetpoint {mustBePositive} %Gas B Small MFC setpoint [SLM]
+        QBLargeSetpoint {mustBePositive} %Gas
     end
     
     %Calculate flow rates
