@@ -114,7 +114,19 @@ function checkMFCStructFields(MFCStruct)
     % {'O2UnitLargeMax'}    {'O2UnitLargeMin'}];
 
     if string(fieldnames(MFCStruct)) ~= correctFields
-        eid = 
+        eid = 'checkMFCStructFields:fieldnamesNotMatching';
+        msg = "MFCStruct Fieldnames do not match the correct fieldnames. They should be " + strjoin(correctFields);
+        error(eid,msg)
     end
+end
 
+function checkDisplayFields(displayFields)
+    correctFields = ["signalA";    "signalB";    "signalC";    "signalD";...
+    "flowA";    "flowB";    "flowC";    "flowD"];
+
+    if string(fieldnames(displayFields)) ~= correctFields
+        eid = 'checkDisplayFields:fieldnamesNotMatching';
+        msg = "displayFields fieldnames do not match the correct fieldnames. The should be " + strjoin(correctFields);
+        error(eid,msg)
+    end
 end

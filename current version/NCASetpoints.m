@@ -18,10 +18,10 @@ function [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = NCA
     arguments (Input)
         QA1 {mustBeNumeric} %Mass flow rate of gas A in SLPM (N2)
         QB1 {mustBeNumeric} %Mass flow rate of gas B in SLPM (O2)
-        MFCStruct struct %Struct containing each MFC label/tag and their operating ranges
+        MFCStruct struct {checkMFCStructFields(MFCStruct)}%Struct containing each MFC label/tag and their operating ranges
         setFlows {islogical(setFlows)} = false; %Boolean to setflows on MFCs or just calculate
         display.updateFields {islogical(display.updateFields)} = false;
-        display.fields struct = struct; %Struct containing the EditFields to be updated
+        display.fields struct {checkDisplayFields(display.fields)} = struct; %Struct containing the EditFields to be updated
     end
     arguments (Output)
         QASmallSetpoint {mustBeGreaterThanOrEqual(QASmallSetpoint,0)} %Gas A Small MFC setpoint [SLM]
@@ -115,7 +115,18 @@ function checkMFCStructFields(MFCStruct)
 
     if string(fieldnames(MFCStruct)) ~= correctFields
         eid = 'checkMFCStructFields:fieldnamesNotMatching';
-        msg = 'MFCStruct Fieldnames do not match the correct fieldnames';
+        msg = "MFCStruct Fieldnames do not match the correct fieldnames. They should be " + strjoin(correctFields);
+        error(eid,msg)
+    end
+end
+
+function checkDisplayFields(displayFields)
+    correctFields = ["signalA";    "signalB";    "signalC";    "signalD";...
+    "flowA";    "flowB";    "flowC";    "flowD"];
+
+    if string(fieldnames(displayFields)) ~= correctFields
+        eid = 'checkDisplayFields:fieldnamesNotMatching';
+        msg = "displayFields fieldnames do not match the correct fieldnames. The should be " + strjoin(correctFields);
         error(eid,msg)
     end
 end
