@@ -114,8 +114,7 @@ function checkMFCStructFields(MFCStruct)
     % {'O2UnitLargeMax'}    {'O2UnitLargeMin'}];
 
     if string(fieldnames(MFCStruct)) ~= correctFields
-        eid = 'checkMFCStructFields:fieldnamesNotMatching';
-        msg = 'MFCStruct Fieldnames do not match the correct fieldnames';
-        error(eid,msg)
+        eid = 
     end
+
 end
