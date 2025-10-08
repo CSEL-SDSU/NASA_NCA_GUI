@@ -1,4 +1,4 @@
-function [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = NCASetpoints(QA1,QB1,MFCStruct,setFlows)
+function [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = NCASetpoints(QA1,QB1,MFCStruct,setFlows,display)
 %startFlow: subroutine that goes through the the procedure for starting the
 %four mass flow controllers used to set flow in NCA-B.
 %   Routine takes inputs of the desired total flow rates for each gas,
@@ -20,6 +20,8 @@ function [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = NCA
         QB1 {mustBeNumeric} %Mass flow rate of gas B in SLPM (O2)
         MFCStruct %Struct containing each MFC label/tag and their operating ranges
         setFlows {islogical(setFlows)} = false; %Boolean to setflows on MFCs or just calculate
+        display.updateFields {islogical(display.updateFields)} = false;
+        display.fields = struct; %Struct containing the EditFields to be updated
     end
     arguments (Output)
         QASmallSetpoint {mustBeGreaterThanOrEqual(QASmallSetpoint,0)} %Gas A Small MFC setpoint [SLM]
@@ -67,7 +69,29 @@ function [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = NCA
         warning('Error computing gas B Flows. Leftover computed incorrectly QBLeftover = %f.2, QB1 = %f.2\n',QBLeftover, MFCStruct.QB1);
     end
 
-    % setpoints = [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint];
+    if display.updateFields
+        % MFC A = Gas A (N2) Large MFC
+        % MFC B = Gas B (O2) Large MFC
+        % MFC C = Gas A (N2) Small MFC
+        % MFC D = Gas B (O2) Small MFC
+        %Update Display with 16 bit signal (0-64000)
+        %Calculate 16 bit signal      
+
+        %16 bit Signal Display Fields
+        display.fields.signalA.Value = calcFlow(QALargeSetpoint,app.N2UnitLarge);
+        display.fields.signalB.Value = calcFlow(QBLargeSetpoint,app.O2UnitLarge);
+        display.fields.signalC.Value = calcFlow(QASmallSetpoint,app.N2UnitSmall);
+        display.fields.signalD.Value = calcFlow(QBSmallSetpoint,app.O2UnitSmall);
+
+        %Flow Rate display fields
+        display.fields.flowA.Value = QALargeSetpoint;
+        display.fields.flowB.Value = QBLargeSetpoint;
+        display.fields.flowC.Value = QASmallSetpoint;
+        display.fields.flowD.Value = QBSmallSetpoint;    
+    end
+
+
+    % Send the calculated flowrates to the MFCs if setFlows is true
     if setFlows
         setFlow(QASmallSetpoint,MFCStruct.N2UnitSmall)
         setFlow(QALargeSetpoint,MFCStruct.N2UnitLarge)
