@@ -43,7 +43,7 @@ function [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = NCA
     if QALeftover <= 0
         QASmallSetpoint = QA1;
         QALargeSetpoint = 0;
-    elseif QALeftover > 0 && QALeftover <= MFCStruct.N2UnitLargeMin
+    elseif (QALeftover > 0) && (QALeftover <= MFCStruct.N2UnitLargeMin)
         QASmallSetpoint = QALeftover;
         QALargeSetpoint = MFCStruct.N2UnitLargeMin;
     elseif QALeftover > MFCStruct.N2UnitSmallMax
@@ -57,7 +57,7 @@ function [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = NCA
     if QBLeftover <= 0
         QBSmallSetpoint = QB1;
         QBLargeSetpoint = 0;
-    elseif QBLeftover > 0 && QBLeftover <= MFCStruct.O2UnitLargeMin
+    elseif (QBLeftover > 0) && (QBLeftover <= MFCStruct.O2UnitLargeMin)
         QBSmallSetpoint = QBLeftover;
         QBLargeSetpoint = MFCStruct.O2UnitLargeMin;
     elseif QBLeftover > 0

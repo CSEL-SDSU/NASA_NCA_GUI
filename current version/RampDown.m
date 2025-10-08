@@ -24,7 +24,7 @@ end
 %similar to RampUp.m
 %%This is a rudimentary code to ramp a flow at the correct rate. For future advances, consider
 %%using the Matlab timer function (can adjust time period, how often, etc.)
-RDT = (PVT - IVT)/RDRT; %Ramp Down Time (Total)
+RDT = (IVT - PVT)/RDRT; %Ramp Down Time (Total)
 % N = 50; %Adjust this value to find a good spot to match the ramp time. Too low = longer pauses, Too high = more iterations (too long).
 dt = RDT / N; %Fraction of the total time RDT (Ramp Down Time) dictated by N
 D_dt = RDRT*dt; %Ramp down in a fraction of time. D_dt = Decrease per dt
@@ -32,27 +32,47 @@ D_dt = RDRT*dt; %Ramp down in a fraction of time. D_dt = Decrease per dt
 %------Timer setup--------
 t = timer;
 t.period = dt;
-t.TasksToExecute;
+t.TasksToExecute = N;
 %Add the timer callback function to the matlab execution que every dt
 %seconds. This does not wait for the queue lag time or the callback function
 %execution time before adding another subsequent execution of the callback
 %function.
 t.ExecutionMode = 'fixedRate';
-t.TimerFcn = @NCASetpoints;
+%Set the callback function to the helper below and pass the neccesary
+%arguments as a cell array
+t.TimerFcn = {@timerCallback,IVT, RDRT, OxyComp, A, DC,MFCStruct};
 
-tic
-for i = 1:N
-    RVT = IVT + D_dt*i; %(Ramp Velocity Total decreasing) --> opposite in RampUp.m
-    Q_T1 = RVT*A*DC*0.06; %Flow Total
-    Q_B1 = OxyComp*Q_T1/100; %Flow A
-    Q_A1 = Q_T1 - Q_B1; %Flow B
-    
-    %Set Flows Here
-    setFlow(Q_A1, N2Unit);
-    setFlow(Q_B1, O2Unit);
-    
-    pause(dt);
-end
-toc
+%Start timer process
+start(t)
+
+
+%------ OLD RAMPDOWN CODE------- Removed 10/7/2025
+% tic
+% for i = 1:N
+%     RVT = IVT + D_dt*i; %(Ramp Velocity Total decreasing) --> opposite in RampUp.m
+%     Q_T1 = RVT*A*DC*0.06; %Flow Total
+%     Q_B1 = OxyComp*Q_T1/100; %Flow A
+%     Q_A1 = Q_T1 - Q_B1; %Flow B
+% 
+%     %Set Flows Here
+%     setFlow(Q_A1, N2Unit);
+%     setFlow(Q_B1, O2Unit);
+% 
+%     pause(dt);
+% end
+% toc
 end
 
+function timerCallback(obj,event,IVT, RDRT, OxyComp, A, DC,MFCStruct)
+    % Update the current total flow, and calculate the neccesary Gas A and
+    % B flow rates.
+    RVT = IVT - obj.period*RDRT*obj.TasksExecuted; %(Ramp Velocity Total decreasing) --> opposite in RampUp.m [cm/s]
+    RVT %Print for debugging purposes 
+    Q_T1 = RVT*A*DC*0.06; %Flow Total [SLM]
+    Q_B1 = OxyComp*Q_T1/100; %Flow B, O2 [SLM]
+    Q_A1 = Q_T1 - Q_B1; %Flow A, N2 [SLM]
+
+    %Calculate setpoints for each MFC and set their flows. Output the
+    %setpoints for updating display fields in future
+    [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = NCASetpoints(Q_A1,Q_B1,MFCStruct,true);
+end
