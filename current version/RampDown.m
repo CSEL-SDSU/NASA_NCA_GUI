@@ -38,7 +38,7 @@ t.TasksToExecute;
 %execution time before adding another subsequent execution of the callback
 %function.
 t.ExecutionMode = 'fixedRate';
-% t.TimerFcn = @calcNCASetpoints
+t.TimerFcn = @NCASetpoints;
 
 tic
 for i = 1:N
