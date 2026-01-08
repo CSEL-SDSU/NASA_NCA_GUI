@@ -1,4 +1,4 @@
-function RampDown(IVT, PVT, RDRT, OxyComp, A, DC,MFCStruct,N)
+function RampDown(IVT, PVT, RDRT, OxyComp, A, DC,MFCStruct,displayFields,N)
 % Modified by Jack T. Volponi 10/2/2025
 % ------------------------------------------------------------------------
 % Rewriting the code for better precision at lower flowrates. This version
@@ -15,6 +15,7 @@ arguments
     A {mustBeNumeric} %Cross-sectional area of NCA [cm^2]
     DC {mustBeNumeric} %Density correction factor 
     MFCStruct %Struct containing each MFC label/tag and their operating ranges
+    displayFields %Struct containing the EditFields to be updated
     N (1,1) {mustBeInteger,mustBeGreaterThan(N,0)} = 50 %Number of timesteps, 
 end
 
@@ -40,7 +41,7 @@ t.TasksToExecute = N;
 t.ExecutionMode = 'fixedRate';
 %Set the callback function to the helper below and pass the neccesary
 %arguments as a cell array
-t.TimerFcn = {@timerCallback,IVT, RDRT, OxyComp, A, DC,MFCStruct};
+t.TimerFcn = {@timerCallback,IVT, RDRT, OxyComp, A, DC,MFCStruct,displayFields};
 
 %Start timer process
 start(t)
@@ -63,7 +64,7 @@ start(t)
 % toc
 end
 
-function timerCallback(obj,event,IVT, RDRT, OxyComp, A, DC,MFCStruct)
+function timerCallback(obj,event,IVT, RDRT, OxyComp, A, DC,MFCStruct,displayFields)
     % Update the current total flow, and calculate the neccesary Gas A and
     % B flow rates.
     RVT = IVT - obj.period*RDRT*obj.TasksExecuted; %(Ramp Velocity Total decreasing) --> opposite in RampUp.m [cm/s]
@@ -74,5 +75,6 @@ function timerCallback(obj,event,IVT, RDRT, OxyComp, A, DC,MFCStruct)
 
     %Calculate setpoints for each MFC and set their flows. Output the
     %setpoints for updating display fields in future
-    [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = NCASetpoints(Q_A1,Q_B1,MFCStruct,true);
+    
+    [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = NCASetpoints(Q_A1,Q_B1,MFCStruct,true,updateFields=true,fields=displayFields);
 end
