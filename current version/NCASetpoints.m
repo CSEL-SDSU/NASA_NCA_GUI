@@ -99,11 +99,14 @@ function [QASmallSetpoint,QALargeSetpoint,QBSmallSetpoint,QBLargeSetpoint] = NCA
 
 
     % Send the calculated flowrates to the MFCs if setFlows is true
+
     if setFlows
+        % tic
         setFlow(QASmallSetpoint,MFCStruct.N2UnitSmall)
         setFlow(QALargeSetpoint,MFCStruct.N2UnitLarge)
         setFlow(QBSmallSetpoint,MFCStruct.O2UnitSmall)
         setFlow(QBLargeSetpoint,MFCStruct.O2UnitLarge)
+        % toc
     end
 end
 
