@@ -1,4 +1,4 @@
-function RampDown(IVT, PVT, RDRT, OxyComp, A, DC, N2Unit, O2Unit )
+function RampDown(IVT, PVT, RDRT, OxyComp, A, DC,MFCStruct)
 % Modified by Jack T. Volponi 10/2/2025
 % ------------------------------------------------------------------------
 % Rewriting the code for better precision at lower flowrates. This version
@@ -7,7 +7,14 @@ function RampDown(IVT, PVT, RDRT, OxyComp, A, DC, N2Unit, O2Unit )
 % greater than the capacity of the small mfc. It will then ramp down the
 % larger MFC first, then ramp the small mfc to minimize the error.
 
-
+arguments
+    IVT {mustBeNumeric} %Total Initial Velocity [cm/s]
+    PVT {mustBeNumeric} %Total Plateau Velocity [cm/s]
+    RDRT {mustBeNumeric} %Total Velocity Rampdown Rate [cm/s/s]
+    OxyComp {mustBeNumeric} %Oxygen Concentration [% Oxygen]
+    A {mustBeNumeric} %Cross-sectional area of NCA [cm^2]
+    MFCStruct
+end
 
 %Input Order: Initial Velocity Total, Plateau Velocity Total, Ramp Rate,
 %Oxygen Composition, Area, Density Correction Factor, Nitrogen Unit ID,
