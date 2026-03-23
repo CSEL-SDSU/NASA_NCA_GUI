@@ -48,6 +48,8 @@ try
     OUT.ID = cell2mat(OUT.ID);
     OUT.gas = cell2mat(OUT.gas);
     OUT.time = now;
+
+    %Set flow variables to zero if empty
     specialArray = fieldnames(OUT);
     for i = 2:numel(specialArray) - 2
         if isempty(OUT.(specialArray{i}))
