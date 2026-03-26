@@ -38,10 +38,8 @@ try
     IN = fgetl(aliComm);
     data = textscan(IN, '%s%f%f%f%f%f%s',1, 'Delimiter', ' ',ReturnOnError=true);
     
-    % if any(isnan(data))
-    %     disp(":)\n");
-    % end
-    
+    if any(isnan(data))
+        fprintf)"
     [...
         OUT.ID, ...
         OUT.pressure, ...
