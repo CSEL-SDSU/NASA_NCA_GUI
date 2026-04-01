@@ -32,16 +32,26 @@ end
 if nargin<2, quiet=1; end
 
 try
+
+
+    if aliComm.BytesAvailable > 0
+        % warning('Stale bytes before request to %s: %d', MFC, aliComm.BytesAvailable);
+        flushinput(aliComm);
+    end
     fprintf(aliComm,MFC); %Ping the MFC
     % IN=fscanf(aliComm); %Read back tthe data
 
     IN = fgetl(aliComm);
-    data = textscan(IN, '%s%f%f%f%f%f%s',1, 'Delimiter', ' ',ReturnOnError=true);
-    
-    % if any(isnan(data))
-    %     disp(":)\n");
-    % end
-    
+    % Replace null charceters with spaces. Null characters are not
+    % recognized as delimiters (not sure why they are even produced)
+    IN(IN==0) = ' ';
+    % IN = regexprep(IN, '[^\x20-\x7E]', ' ');
+    % Turn returnOnError true for release
+    % data = textscan(IN, '%s%f%f%f%f%f%s',1, 'Delimiter', ' ',ReturnOnError=true);
+    data = textscan(IN, '%s%f%f%f%f%f%s',1, 'Delimiter', ' ',ReturnOnError=false, MultipleDelimsAsOne=true);
+
+
+
     [...
         OUT.ID, ...
         OUT.pressure, ...
@@ -51,6 +61,22 @@ try
         OUT.setPoint, ...
         OUT.gas ...
         ] = data{:};
+    
+    % cleanLine = regexprep(IN, '[^\x20-\x7E]', ' '); %remove corrupted characters and replace with space
+    % tokens = strsplit(strtrim(cleanLine));
+    % 
+    % if numel(tokens) < 7
+    %     error('Malformed Alicat line: <%s>', IN);
+    % end
+    % 
+    % OUT.ID             = tokens{1};
+    % OUT.pressure       = str2double(tokens{2});
+    % OUT.temp           = str2double(tokens{3});
+    % OUT.volumetricFlow = str2double(tokens{4});
+    % OUT.massFlow       = str2double(tokens{5});
+    % OUT.setPoint       = str2double(tokens{6});
+    % OUT.gas            = tokens{7};
+    % OUT.time           = now;
 
     % [...
     %     OUT.ID, ...
@@ -67,6 +93,11 @@ try
     OUT.ID = cell2mat(OUT.ID);
     OUT.gas = cell2mat(OUT.gas);
     OUT.time = now;
+    
+    % if any(isnan([OUT.ID, OUT.pressure, OUT.temp, OUT.volumetricFlow,OUT.massFlow, ...
+    %     OUT.setPoint, OUT.gas]))
+    %     disp(":)\n");
+    % end
 
     %Set flow variables to zero if empty
     specialArray = fieldnames(OUT);
@@ -83,7 +114,8 @@ catch e
         disp('Problem reading from serial port')
     end
     OUT = [];
+    flushinput(aliComm); %Clean up on exception 
     %OUT
 end
-flushAlicatBuffer;
+% flushAlicatBuffer;
 end

@@ -34,9 +34,13 @@ if ischar(odourConc)
         flow = round(flow);
         fprintf(aliComm, sprintf('%s%g',unitID,flow) );
         % A=readMFC(aliComm);
+        fgetl(aliComm); %discard response line 
+        % if aliComm.BytesAvailable > 0
+        %     fgetl(aliComm);   % discard response safely
+        % end
         sprintf('%s%g',unitID,flow);
     end
-flushAlicatBuffer;
+% flushAlicatBuffer;
 elseif isnumeric(odourConc)
     
     % We will pass 1 SLPM total and allow the odour to from 0 to 100

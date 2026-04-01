@@ -4,7 +4,8 @@ function aliComm=connectAlicat
 % connects to COM port hard-coded into file. User may overide
 % this.
 
-COM='COM1';
+COM='COM1'; % DB9 cable
+% COM = 'COM6'; % USB cable
 
 fprintf('Connecting to Alicats on port %s\n',COM)
 
